@@ -3,92 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة حساب التكامل | د. صلاح الدين عباس</title>
+    <title>الموسوعة الشاملة لحساب التكامل | د. صلاح الدين عباس</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
-        body { font-family: 'Tajawal', sans-serif; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@400;700&display=swap');
+        body { font-family: 'Changa', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="bg-slate-950">
+<body>
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
+        // --- أداة المعادلات الرياضية ---
         const MathText = ({ text, className }) => {
             const containerRef = useRef(null);
-
             useEffect(() => {
                 let isCancelled = false;
                 const renderMath = () => {
                     if (isCancelled) return;
                     if (containerRef.current && window.MathJax && window.MathJax.typesetPromise) {
                         window.MathJax.typesetClear([containerRef.current]);
-                        window.MathJax.typesetPromise([containerRef.current]).catch((err) => console.error(err));
-                    } else {
-                        setTimeout(renderMath, 100);
-                    }
+                        window.MathJax.typesetPromise([containerRef.current]).catch(err => console.error(err));
+                    } else { setTimeout(renderMath, 100); }
                 };
                 renderMath();
                 return () => { isCancelled = true; };
             }, [text]);
-
-            return (
-                <span ref={containerRef} className={className} dangerouslySetInnerHTML={{ __html: text }} />
-            );
+            return <span ref={containerRef} className={className} dangerouslySetInnerHTML={{ __html: text }} />;
         };
 
-        const THEORY_DATA = [
-            { id: 't1', type: 'مفهوم أساسي', title: 'تعريف التكامل المحدود', content: '<p class="mb-2">إذا كانت الدالة <strong class="text-emerald-400">$f(x)$</strong> متصلة على الفترة <strong class="text-cyan-400">$[a, b]$</strong>، فإن التكامل المحدود يمثل المساحة الجبرية المحصورة بين منحنى الدالة ومحور السينات.</p> <p>$$ \\int_{a}^{b} f(x) dx = F(b) - F(a) $$</p>' },
-            { id: 't2', type: 'نظرية هامة', title: 'العلاقة بين الدوال الزائدية والأسية', content: '<ul class="list-disc list-inside space-y-2 mt-4 text-slate-300"> <li>دالة الجيب الزائدي: $$ \\sinh(x) = \\frac{e^x - e^{-x}}{2} $$</li> <li>دالة جيب التمام الزائدي: $$ \\cosh(x) = \\frac{e^x + e^{-x}}{2} $$</li> </ul>', derivation: '<p>بتربيع كل من المعادلتين وطرحهما نجد أن: $\\cosh^2(x) - \\sinh^2(x) = 1$</p>' }
+        // --- البيانات الضخمة (الشرح والنظريات) ---
+        const COURSE_CHAPTERS = [
+            {
+                id: 'ch1',
+                title: 'الباب الأول: المفاهيم الأساسية للتكامل',
+                content: 'التكامل هو العملية العكسية للتفاضل. يعتمد هذا الباب على حفظ الجدول القياسي للمشتقات.',
+                rules: [
+                    '$$ \\int x^n dx = \\frac{x^{n+1}}{n+1} + c \\quad (n \\neq -1) $$',
+                    '$$ \\int \\frac{1}{x} dx = \\ln|x| + c $$',
+                    '$$ \\int e^x dx = e^x + c $$'
+                ]
+            },
+            {
+                id: 'ch2',
+                title: 'الباب الثاني: طرق التكامل (التعويض والتجزيء)',
+                content: 'إذا كانت الدالة معقدة ولا توجد في الجداول القياسية، نلجأ لطرق رياضية لتبسيطها:',
+                rules: [
+                    '**التكامل بالتعويض:** $$ \\int f(g(x)) g\'(x) dx = \\int f(u) du $$ (بوضع u = g(x))',
+                    '**التكامل بالتجزيء:** $$ \\int u dv = uv - \\int v du $$ (تستخدم لحاصل ضرب دالتين)'
+                ]
+            },
+            {
+                id: 'ch3',
+                title: 'الباب الثالث: الدوال المثلثية والزائدية',
+                content: 'الدوال الزائدية مرتبطة بالدالة الأسية وتستخدم في تطبيقات هندسية كثيرة.',
+                rules: [
+                    '$$ \\sinh(x) = \\frac{e^x - e^{-x}}{2} \\quad , \\quad \\cosh(x) = \\frac{e^x + e^{-x}}{2} $$',
+                    '$$ \\int \\sin(x) dx = -\\cos(x) + c $$',
+                    '$$ \\int \\sinh(x) dx = \\cosh(x) + c $$'
+                ]
+            },
+            {
+                id: 'ch4',
+                title: 'الباب الرابع: التكامل المحدود',
+                content: 'يستخدم لحساب المساحات تحت المنحنيات وله حدود عليا وسفلى، ولا نضيف فيه الثابت c.',
+                rules: [
+                    '$$ \\int_{a}^{b} f(x) dx = F(b) - F(a) $$',
+                    '**نظرية القيمة المتوسطة:** $$ \\int_{a}^{b} f(x) dx = f(c)(b-a) $$'
+                ]
+            }
         ];
 
-        const QUESTION_BANK_DATA = [
-            { id: 1, type: 'تمرين', category: 'دوال أسية', source: 'تمارين - صفحة 21', ruleRef: 'التعويض الجبري', problem: '$$ \\int \\frac{e^{\\sqrt{x}}}{\\sqrt{x}} dx $$', steps: ['نفرض أن $u = \\sqrt{x}$.', 'نفاضل الطرفين: $du = \\frac{1}{2\\sqrt{x}} dx$', 'النتيجة: $$ 2e^{\\sqrt{x}} + c $$'] },
-            { id: 2, type: 'تمرين', category: 'دوال لوغاريتمية', source: 'تمارين - صفحة 21', ruleRef: 'البسط مشتقة المقام', problem: '$$ \\int \\frac{dx}{x - x \\ln x} $$', steps: ['نأخذ $x$ عامل مشترك.', 'نفرض $u = 1 - \\ln x$.', 'النتيجة: $$ -\\ln|1 - \\ln x| + c $$'] }
+        // --- بنك الأسئلة الشامل ---
+        const EXERCISES = [
+            { id: 1, chapter: 'طرق التكامل', problem: '$$ \\int x e^x dx $$', hint: 'استخدم طريقة التكامل بالتجزيء. نفرض أن u = x و dv = e^x dx', answer: '$$ x e^x - e^x + c $$' },
+            { id: 2, chapter: 'المفاهيم الأساسية', problem: '$$ \\int \\frac{x^2 + 1}{x} dx $$', hint: 'قم بتوزيع البسط على المقام لتصبح الدالة x + 1/x', answer: '$$ \\frac{x^2}{2} + \\ln|x| + c $$' },
+            { id: 3, chapter: 'الدوال المثلثية', problem: '$$ \\int \\tan(x) dx $$', hint: 'حول الدالة إلى sin(x)/cos(x) واستخدم تكامل البسط مشتقة المقام', answer: '$$ -\\ln|\\cos(x)| + c $$' },
+            { id: 4, chapter: 'التكامل بالتعويض', problem: '$$ \\int 2x(x^2 + 1)^5 dx $$', hint: 'نفرض أن u = x^2 + 1، إذن du = 2x dx', answer: '$$ \\frac{(x^2+1)^6}{6} + c $$' },
+            { id: 5, chapter: 'التكامل المحدود', problem: '$$ \\int_{0}^{1} x^3 dx $$', hint: 'كامل الدالة أولاً لتعطي (x^4)/4 ثم عوض بالحد العلوي ناقص السفلي', answer: '$$ \\frac{1}{4} - 0 = \\frac{1}{4} $$' }
         ];
 
-        const RULES_DATA = [
-            { id: 1, category: 'أساسية', func: '$y = x^n$', deriv: '$\\frac{dy}{dx} = n x^{n-1}$' },
-            { id: 3, category: 'أساسية', func: '$y = e^x$', deriv: '$\\frac{dy}{dx} = e^x$' },
-            { id: 5, category: 'مثلثية', func: '$y = \\sin(x)$', deriv: '$\\frac{dy}{dx} = \\cos(x)$' }
-        ];
-
-        function TheoryHub() {
+        // --- مكونات الموقع ---
+        function ChaptersOverview() {
             return (
                 <div className="space-y-8 animate-fade-in">
-                    <h2 className="text-3xl font-bold text-white mb-2">موسوعة النظريات والتعاريف</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {THEORY_DATA.map(item => (
-                            <div key={item.id} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                                <span className="text-cyan-400 text-xs bg-slate-700 px-2 py-1 rounded mb-2 inline-block">{item.type}</span>
-                                <h3 className="font-bold text-xl text-white mb-4">{item.title}</h3>
-                                <MathText text={item.content} className="text-slate-300" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        }
-
-        function QuestionBank() {
-            return (
-                <div className="space-y-8 animate-fade-in">
-                    <h2 className="text-3xl font-bold text-white mb-2">بنك الأسئلة التفاعلي</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {QUESTION_BANK_DATA.map(q => (
-                            <div key={q.id} className="bg-slate-900 border border-amber-900/50 p-6 rounded-2xl shadow-xl text-center">
-                                <span className="text-amber-400 text-xs bg-amber-900/50 px-2 py-1 rounded mb-2 inline-block">{q.source}</span>
-                                <MathText text={q.problem} className="text-2xl text-white block my-4" />
-                                <div className="text-left bg-slate-950 p-4 rounded-xl mt-4 border border-slate-800">
-                                    <h4 className="text-emerald-400 mb-2 font-bold">الحل:</h4>
-                                    {q.steps.map((step, i) => <MathText key={i} text={step} className="block text-slate-300 mb-2" />)}
+                    <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-yellow-400 to-orange-500 mb-6 border-b border-gray-700 pb-4">
+                        📘 فهرس الشرح والنظريات
+                    </h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {COURSE_CHAPTERS.map(ch => (
+                            <div key={ch.id} className="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300">
+                                <h3 className="text-xl font-bold text-blue-400 mb-3">{ch.title}</h3>
+                                <p className="text-gray-300 mb-4 leading-relaxed">{ch.content}</p>
+                                <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-3">
+                                    <h4 className="text-emerald-400 text-sm font-bold">أهم القواعد:</h4>
+                                    {ch.rules.map((rule, idx) => (
+                                        <MathText key={idx} text={rule} className="block text-center text-lg text-white bg-black/30 py-2 rounded" />
+                                    ))}
                                 </div>
                             </div>
                         ))}
@@ -97,44 +115,132 @@
             );
         }
 
-        function InteractiveLab() {
-            const [cValue, setCValue] = useState(0);
+        function ExercisesBank() {
             return (
-                <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl animate-fade-in text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">تأثير ثابت التكامل (C)</h2>
-                    <MathText text={`$y = x^2 ${cValue >= 0 ? '+' : ''} ${cValue}$`} className="text-3xl text-cyan-400 font-bold block mb-8" />
-                    <input type="range" min="-10" max="10" step="1" value={cValue} onChange={(e) => setCValue(e.target.value)} className="w-full max-w-md cursor-pointer accent-cyan-400" />
+                <div className="space-y-8 animate-fade-in">
+                    <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-green-400 to-cyan-500 mb-6 border-b border-gray-700 pb-4">
+                        ✍️ بنك التمارين والحلول
+                    </h2>
+                    <div className="space-y-6">
+                        {EXERCISES.map(ex => (
+                            <div key={ex.id} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row gap-6 items-center">
+                                <div className="md:w-1/3 text-center border-l border-gray-700 pl-4">
+                                    <span className="text-xs bg-blue-900/50 text-blue-300 px-3 py-1 rounded-full mb-2 inline-block">{ex.chapter}</span>
+                                    <MathText text={ex.problem} className="block text-3xl text-white my-4" />
+                                </div>
+                                <div className="md:w-2/3 w-full space-y-4">
+                                    <details className="group">
+                                        <summary className="cursor-pointer bg-slate-800 p-3 rounded-lg text-yellow-400 font-bold hover:bg-slate-700 transition">
+                                            💡 عرض تلميح للحل
+                                        </summary>
+                                        <div className="p-4 bg-slate-900 mt-2 rounded-lg text-gray-300 text-sm">
+                                            {ex.hint}
+                                        </div>
+                                    </details>
+                                    <details className="group">
+                                        <summary className="cursor-pointer bg-slate-800 p-3 rounded-lg text-emerald-400 font-bold hover:bg-slate-700 transition">
+                                            ✅ عرض الحل النهائي
+                                        </summary>
+                                        <div className="p-4 bg-slate-900 mt-2 rounded-lg text-center">
+                                            <MathText text={ex.answer} className="text-2xl text-emerald-300" />
+                                        </div>
+                                    </details>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function StandardTables() {
+            return (
+                <div className="space-y-8 animate-fade-in">
+                    <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-purple-400 to-pink-500 mb-6 border-b border-gray-700 pb-4">
+                        📚 الجداول القياسية المرجعية
+                    </h2>
+                    <div className="overflow-x-auto glass-card rounded-2xl">
+                        <table className="w-full text-center">
+                            <thead className="bg-slate-800 text-purple-300">
+                                <tr>
+                                    <th className="p-4 border-b border-slate-700">الدالة الأصلية <MathText text={"$f(x)$"} /></th>
+                                    <th className="p-4 border-b border-slate-700 border-r">المشتقة <MathText text={"$f'(x)$"} /></th>
+                                    <th className="p-4 border-b border-slate-700 border-r">التكامل <MathText text={"$\\int f(x) dx$"} /></th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-700">
+                                <tr className="hover:bg-slate-800/50">
+                                    <td className="p-4"><MathText text={"$x^n$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$n x^{n-1}$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$\\frac{x^{n+1}}{n+1}$"} /></td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/50">
+                                    <td className="p-4"><MathText text={"$\\sin(x)$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$\\cos(x)$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$-\\cos(x)$"} /></td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/50">
+                                    <td className="p-4"><MathText text={"$e^x$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$e^x$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$e^x$"} /></td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/50">
+                                    <td className="p-4"><MathText text={"$\\frac{1}{x}$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$-\\frac{1}{x^2}$"} /></td>
+                                    <td className="p-4 border-r"><MathText text={"$\\ln|x|$"} /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             );
         }
 
         function App() {
-            const [activeTab, setActiveTab] = useState('theory');
+            const [activeTab, setActiveTab] = useState('chapters');
             const tabs = [
-                { id: 'theory', label: 'المستودع المعرفي', icon: '📖' },
-                { id: 'bank', label: 'بنك الأسئلة', icon: '🧠' },
-                { id: 'lab', label: 'المعمل التفاعلي', icon: '🔬' }
+                { id: 'chapters', label: 'الشرح والنظريات', icon: '📖' },
+                { id: 'exercises', label: 'بنك الأسئلة', icon: '🧠' },
+                { id: 'tables', label: 'الجداول القياسية', icon: '📊' }
             ];
 
             return (
-                <div className="min-h-screen bg-slate-950 text-slate-200" dir="rtl">
-                    <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 p-4">
-                        <div className="max-w-6xl mx-auto">
-                            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-cyan-400 mb-4">حسبان (2): حساب التكامل</h1>
-                            <div className="flex gap-2 overflow-x-auto">
-                                {tabs.map(tab => (
-                                    <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`px-4 py-2 rounded-lg font-bold transition-colors ${activeTab === tab.id ? 'bg-cyan-900 text-cyan-400' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
-                                        {tab.icon} {tab.label}
-                                    </button>
-                                ))}
+                <div className="min-h-screen">
+                    <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-700 sticky top-0 z-50 shadow-2xl">
+                        <div className="max-w-7xl mx-auto px-4 py-6">
+                            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                                <div className="text-center md:text-right">
+                                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-wide">
+                                        حسبان (2) <span className="text-blue-500">|</span> حساب التكامل
+                                    </h1>
+                                    <p className="text-gray-400 text-sm md:text-base">الإصدار الشامل المرجعي - بناءً على كتاب د. صلاح الدين عباس</p>
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 scrollbar-hide">
+                                    {tabs.map(tab => (
+                                        <button 
+                                            key={tab.id} 
+                                            onClick={() => setActiveTab(tab.id)} 
+                                            className={`flex-1 md:flex-none px-6 py-3 rounded-xl font-bold transition-all whitespace-nowrap ${
+                                                activeTab === tab.id 
+                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50 scale-105' 
+                                                : 'bg-slate-800 text-gray-400 hover:bg-slate-700 hover:text-white'
+                                            }`}
+                                        >
+                                            <span className="ml-2">{tab.icon}</span> {tab.label}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </header>
-                    <main className="max-w-6xl mx-auto p-6">
-                        {activeTab === 'theory' && <TheoryHub />}
-                        {activeTab === 'bank' && <QuestionBank />}
-                        {activeTab === 'lab' && <InteractiveLab />}
+                    <main className="max-w-7xl mx-auto p-4 md:p-8 mt-4 mb-20">
+                        {activeTab === 'chapters' && <ChaptersOverview />}
+                        {activeTab === 'exercises' && <ExercisesBank />}
+                        {activeTab === 'tables' && <StandardTables />}
                     </main>
+                    <footer className="text-center py-8 text-gray-500 text-sm border-t border-slate-800">
+                        تم تطوير هذه المنصة لتسهيل دراسة الرياضيات لطلاب الفرقة الأولى
+                    </footer>
                 </div>
             );
         }
