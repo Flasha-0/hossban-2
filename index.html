@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محاضرات في حساب التكامل - د. صالح الدين عباس</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax v3 for mathematical rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams'
+      },
+      options: {
+        ignoreHtmlClass: 'no-mathjax',
+        processHtmlClass: 'mathjax-process'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  
+  <!-- Custom CSS (ربط ملف CSS خارجي) -->
+  <link rel="stylesheet" href="index.css">
+  
+  <style>
+    /* إعدادات إضافية للخطوط والاتجاه */
+    body {
+      font-family: 'Tajawal', 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+    }
+    .sidebar {
+      background-color: #1e293b;
+      color: white;
+      min-height: 100vh;
+    }
+    .sidebar-item {
+      transition: all 0.2s ease;
+    }
+    .sidebar-item:hover {
+      background-color: #334155;
+    }
+    .sidebar-item.active {
+      background-color: #0f172a;
+      border-right: 4px solid #38bdf8;
+    }
+    .content-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      padding: 1.5rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5rem;
+      text-align: right;
+    }
+    th {
+      background-color: #e2e8f0;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
 
+<div class="flex flex-col md:flex-row">
+  
+  <!-- الشريط الجانبي (قائمة الأبواب) -->
+  <aside class="sidebar w-full md:w-80 p-4">
+    <div class="text-center mb-6 border-b border-slate-600 pb-4">
+      <h1 class="text-xl font-bold text-white">حساب التكامل (2)</h1>
+      <p class="text-sm text-slate-300 mt-1">د. صالح الدين عباس</p>
+      <p class="text-xs text-slate-400">كلية العلوم - جامعة سوهاج</p>
+    </div>
+    
+    <nav>
+      <ul class="space-y-1" id="chapter-list">
+        <!-- سيتم إنشاء القائمة ديناميكياً من JavaScript -->
+      </ul>
+    </nav>
+  </aside>
+  
+  <!-- منطقة المحتوى الرئيسية -->
+  <main class="flex-1 p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div class="content-card" id="content-area">
+      <!-- سيتم حقن محتوى الباب المختار هنا -->
+      <div class="text-center text-gray-500 py-10">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <h3 class="mt-4 text-lg font-medium">اختر باباً من القائمة</h3>
+        <p class="mt-1">لعرض المحتوى التعليمي والمعادلات الرياضية</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ربط ملف JavaScript الخارجي -->
+<script src="index.js"></script>
+</body>
+</html>
