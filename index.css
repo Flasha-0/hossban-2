@@ -1,1 +1,83 @@
+/* تخصيصات إضافية لتنسيق الموقع */
+/* معظم التنسيقات تمت باستخدام Tailwind، هذا الملف للتعديلات الدقيقة */
 
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* تحسين مظهر الجداول */
+.math-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.math-table th {
+    background-color: #1e293b;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.math-table td {
+    border: 1px solid #cbd5e1;
+    padding: 0.6rem;
+    vertical-align: middle;
+}
+
+.math-table tr:nth-child(even) {
+    background-color: #f1f5f9;
+}
+
+/* تنسيق العناوين داخل المحتوى */
+.content-card h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.content-card p {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* تحسين عرض المعادلات */
+mjx-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+/* شريط التمرير المخصص */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
