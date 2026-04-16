@@ -745,3 +745,19 @@ header {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+/* إخفاء المعادلات الخام حتى يتم تصييرها */
+.chapter:not(.active) {
+  display: none;
+}
+
+/* تحسين شكل المعادلات وتجنب خروجها عن الشاشة في الموبايل */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 0;
+  direction: ltr; /* المعادلات الرياضية دائماً من اليسار */
+}
+
+.katex {
+  font-size: 1.1em; /* تكبير الخط قليلاً ليكون أوضح */
+}
